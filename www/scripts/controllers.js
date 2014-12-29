@@ -20,18 +20,29 @@ angular.module('IonicTut.controllers', [])
   };
 })
 
-.controller('MainCtrl', function($scope, $state, $http, $q) {
+.controller('MainCtrl', function($scope, $state, $http, $q, $ionicLoading) {
   console.log('MainCtrl');
   
   $scope.init = function() {
+
+    $scope.show = function() {
+      $ionicLoading.show({
+        template: 'Loading..'
+      });
+    };
+
+    $scope.show();
+
     $scope.getImages()
     .then(function(res) {
       // success
       // console.log('Images: ', res);
       $scope.imageList = res.shots;
+      $ionicLoading.hide();
     }, function(status) {
       // err
       $scope.pageError = status;
+      $ionicLoading.hide();
     });
   };
 
