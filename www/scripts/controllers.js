@@ -25,12 +25,6 @@ angular.module('IonicTut.controllers', [])
   
   $scope.init = function() {
 
-    $scope.show = function() {
-      $ionicLoading.show({
-        template: 'Loading..'
-      });
-    };
-
     $scope.show();
 
     $scope.getImages()
@@ -43,8 +37,15 @@ angular.module('IonicTut.controllers', [])
       // err
       $scope.pageError = status;
       $ionicLoading.hide();
+    })
+    .finally(function() {
+      $scope.$broadcast('scroll.refreshComplete');
     });
   };
+
+  $scope.doRefresh = function() {
+    $scope.init();
+  }
 
   $scope.getImages = function() {
     var defer = $q.defer();
@@ -56,9 +57,19 @@ angular.module('IonicTut.controllers', [])
     .error(function(status, code) {
       defer.reject(status);
     })
+    // 아래 코드를 통해서도 동일한 동작을 함.
+    // .finally(function() {
+    //   $scope.$broadcast('scroll.refreshComplete');
+    // });
 
     return defer.promise;
   }
+
+  $scope.show = function() {
+    $ionicLoading.show({
+      template: 'Loading..'
+    });
+  };
 
   $scope.init();
 

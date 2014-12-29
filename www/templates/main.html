@@ -5,6 +5,11 @@
     <button class="button" ng-click="toIntro()">Do Tutorial Again</button>
 -->
 
+	<ion-refresher
+		pulling-text="Pull to refresh..."
+		on-refresh="doRefresh()">
+	</ion-refresher>
+
 	<div class="list card" data-ng-repeat="image in imageList">
 
 	  <div class="item item-avatar">
